@@ -1,0 +1,602 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/health": {
+      "get": {
+        "operationId": "HealthController_health",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "health"
+        ]
+      }
+    },
+    "/": {
+      "get": {
+        "operationId": "DemoPageController_home",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "demo"
+        ]
+      }
+    },
+    "/v1/demo/checkout": {
+      "post": {
+        "operationId": "DemoPageController_demoCheckout",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DemoCheckoutDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "demo"
+        ]
+      }
+    },
+    "/v1/merchants": {
+      "post": {
+        "operationId": "MerchantsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMerchantDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Merchant created. API key and webhook secret are returned once."
+          }
+        },
+        "tags": [
+          "merchants"
+        ]
+      }
+    },
+    "/v1/merchants/me": {
+      "get": {
+        "operationId": "MerchantsController_me",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "merchants"
+        ]
+      }
+    },
+    "/v1/merchants/me/ledger": {
+      "get": {
+        "operationId": "MerchantsController_ledger",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "merchants"
+        ]
+      }
+    },
+    "/v1/intents": {
+      "post": {
+        "operationId": "IntentsController_create",
+        "parameters": [
+          {
+            "name": "idempotency-key",
+            "required": true,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateIntentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "intents"
+        ]
+      },
+      "get": {
+        "operationId": "IntentsController_list",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "intents"
+        ]
+      }
+    },
+    "/v1/intents/{id}": {
+      "get": {
+        "operationId": "IntentsController_get",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "intents"
+        ]
+      }
+    },
+    "/checkout/{id}": {
+      "get": {
+        "operationId": "CheckoutController_page",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "checkout"
+        ]
+      }
+    },
+    "/v1/checkout/{id}": {
+      "get": {
+        "operationId": "CheckoutController_json",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "checkout"
+        ]
+      }
+    },
+    "/v1/checkout/{id}/qr.png": {
+      "get": {
+        "operationId": "CheckoutController_qr",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "checkout"
+        ]
+      }
+    },
+    "/v1/admin/observer/poll": {
+      "post": {
+        "operationId": "AdminController_poll",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "admin": []
+          }
+        ],
+        "tags": [
+          "admin"
+        ]
+      }
+    },
+    "/v1/admin/observer/cursor": {
+      "post": {
+        "operationId": "AdminController_cursor",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CursorDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "admin": []
+          }
+        ],
+        "tags": [
+          "admin"
+        ]
+      }
+    },
+    "/v1/admin/expiry/run": {
+      "post": {
+        "operationId": "AdminController_expire",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "admin": []
+          }
+        ],
+        "tags": [
+          "admin"
+        ]
+      }
+    },
+    "/v1/admin/reconciliation/run": {
+      "post": {
+        "operationId": "AdminController_backfill",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BackfillDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "admin": []
+          }
+        ],
+        "tags": [
+          "admin"
+        ]
+      }
+    },
+    "/v1/admin/reviews": {
+      "get": {
+        "operationId": "AdminController_reviewsList",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "admin": []
+          }
+        ],
+        "tags": [
+          "admin"
+        ]
+      }
+    },
+    "/v1/admin/intents/{id}/recognize": {
+      "post": {
+        "operationId": "AdminController_recognize",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "admin": []
+          }
+        ],
+        "tags": [
+          "admin"
+        ]
+      }
+    },
+    "/v1/admin/reviews/{id}/external-refund": {
+      "post": {
+        "operationId": "AdminController_refund",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalRefundDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "admin": []
+          }
+        ],
+        "tags": [
+          "admin"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Beekle Stellar payments",
+    "description": "Watch-only Stellar checkout. Testnet by default. Customer wallets sign. This service does not submit customer payments or store Stellar seeds.",
+    "version": "0.1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      },
+      "admin": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-Admin-Token"
+      }
+    },
+    "schemas": {
+      "DemoCheckoutDto": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "string",
+            "example": "10.0000000"
+          },
+          "stellar_destination": {
+            "type": "string",
+            "description": "Existing funded testnet account. Omit to preview an unfunded watch-only address."
+          }
+        }
+      },
+      "CreateMerchantDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Northwind Goods"
+          },
+          "stellar_destination": {
+            "type": "string",
+            "example": "GD6WU64XHG2Y4Q2Y4Q2Y4Q2Y4Q2Y4Q2Y4Q2Y4Q2Y4Q2Y4Q2Y4Q2Y4Q2Y",
+            "description": "Merchant self-custody account. Public key only."
+          },
+          "webhook_url": {
+            "type": "string",
+            "example": "http://127.0.0.1:9099/hooks/beekle",
+            "description": "Registered callback. Allowlisted hosts only. Not taken from payment requests."
+          }
+        },
+        "required": [
+          "name",
+          "stellar_destination"
+        ]
+      },
+      "CreateIntentDto": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "string",
+            "example": "25.5000000",
+            "description": "Fixed-point decimal string, max 7 places."
+          },
+          "asset_code": {
+            "type": "string",
+            "example": "USDC"
+          },
+          "asset_issuer": {
+            "type": "string",
+            "example": "GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5",
+            "description": "Required for issued assets. Omit only for native XLM when XLM is accepted."
+          },
+          "merchant_order_ref": {
+            "type": "string",
+            "example": "order-1001"
+          },
+          "expires_in_seconds": {
+            "type": "number",
+            "example": 1800
+          }
+        },
+        "required": [
+          "amount",
+          "asset_code"
+        ]
+      },
+      "CursorDto": {
+        "type": "object",
+        "properties": {
+          "account_id": {
+            "type": "string"
+          },
+          "cursor": {
+            "type": "string",
+            "example": ""
+          }
+        },
+        "required": [
+          "account_id",
+          "cursor"
+        ]
+      },
+      "BackfillDto": {
+        "type": "object",
+        "properties": {
+          "account_id": {
+            "type": "string"
+          },
+          "max_pages": {
+            "type": "number",
+            "example": 5
+          },
+          "from_cursor": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "account_id"
+        ]
+      },
+      "ExternalRefundDto": {
+        "type": "object",
+        "properties": {
+          "note": {
+            "type": "string",
+            "example": "Merchant refunded from their own wallet"
+          },
+          "external_reference": {
+            "type": "string",
+            "example": "off-platform-ref-42"
+          }
+        },
+        "required": [
+          "note",
+          "external_reference"
+        ]
+      }
+    }
+  }
+}

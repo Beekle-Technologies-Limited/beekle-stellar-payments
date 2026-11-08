@@ -1,0 +1,53 @@
+# Example calls against a local server.
+# Amounts are strings. Do not send JSON numbers.
+# Replace the API key printed once by POST /v1/merchants.
+
+### Health
+GET http://127.0.0.1:4317/health
+
+### Create a merchant (public destination only)
+POST http://127.0.0.1:4317/v1/merchants
+Content-Type: application/json
+
+{
+  "name": "Northwind Goods",
+  "stellar_destination": "GXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+  "webhook_url": "http://127.0.0.1:9099/hooks/beekle",
+  "webhook_secret": "replace-with-your-own-hmac-secret"
+}
+
+### Create an intent
+POST http://127.0.0.1:4317/v1/intents
+Authorization: Bearer bk_test_replace_me
+Idempotency-Key: order-1001-attempt-1
+Content-Type: application/json
+
+{
+  "amount": "25.5000000",
+  "asset_code": "USDC",
+  "asset_issuer": "GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5",
+  "merchant_order_ref": "order-1001",
+  "expires_in_seconds": 1800
+}
+
+### Poll
+GET http://127.0.0.1:4317/v1/intents/INTENT_ID
+Authorization: Bearer bk_test_replace_me
+
+### Public checkout
+GET http://127.0.0.1:4317/v1/checkout/INTENT_ID
+
+### Run the observer once
+POST http://127.0.0.1:4317/v1/admin/observer/poll
+X-Admin-Token: replace-with-a-long-random-token
+
+### Backfill from an earlier cursor without moving the saved cursor
+POST http://127.0.0.1:4317/v1/admin/reconciliation/run
+X-Admin-Token: replace-with-a-long-random-token
+Content-Type: application/json
+
+{
+  "account_id": "G...",
+  "from_cursor": "",
+  "max_pages": 3
+}
