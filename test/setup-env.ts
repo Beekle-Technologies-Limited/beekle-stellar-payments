@@ -1,0 +1,25 @@
+process.env.NODE_ENV = 'test';
+process.env.PORT = '4317';
+process.env.DB_HOST = '127.0.0.1';
+process.env.DB_PORT = '3306';
+process.env.DB_USER = 'beekle';
+process.env.DB_PASSWORD = 'beekle_dev_only';
+process.env.DB_NAME = 'beekle_stellar_test';
+process.env.STELLAR_NETWORK = 'testnet';
+process.env.STELLAR_NETWORK_PASSPHRASE = 'Test SDF Network ; September 2015';
+process.env.STELLAR_HORIZON_URL = 'https://horizon-testnet.stellar.org';
+process.env.STELLAR_ALLOW_MAINNET = 'false';
+process.env.STELLAR_HORIZON_ALLOW_UNOFFICIAL = 'false';
+process.env.ACCEPTED_ASSETS =
+  'USDC:GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5';
+process.env.OBSERVER_ENABLED = 'false';
+process.env.WEBHOOK_WORKER_ENABLED = 'false';
+process.env.EXPIRY_WORKER_ENABLED = 'false';
+process.env.WEBHOOK_HOST_ALLOWLIST = 'localhost,127.0.0.1';
+process.env.WEBHOOK_ALLOW_PUBLIC_HTTPS = 'false';
+process.env.WEBHOOK_BACKOFF_MS = '0,0,0';
+process.env.WEBHOOK_ENCRYPTION_KEY = Buffer.alloc(32, 7).toString('base64');
+process.env.ADMIN_TOKEN = 'test-admin-token';
+process.env.DEMO_OPEN_REGISTRATION = 'true';
+process.env.DB_MIGRATE_ON_BOOT = 'false';
+process.env.PUBLIC_BASE_URL = 'http://127.0.0.1:4317';

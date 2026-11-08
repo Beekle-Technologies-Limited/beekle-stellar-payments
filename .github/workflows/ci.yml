@@ -1,0 +1,58 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_DATABASE: beekle_stellar_test
+          MYSQL_USER: beekle
+          MYSQL_PASSWORD: beekle_dev_only
+          MYSQL_ROOT_PASSWORD: beekle_root_dev_only
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -pbeekle_root_dev_only"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=20
+    env:
+      NODE_ENV: test
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+      DB_USER: beekle
+      DB_PASSWORD: beekle_dev_only
+      DB_NAME: beekle_stellar_test
+      STELLAR_NETWORK: testnet
+      STELLAR_NETWORK_PASSPHRASE: "Test SDF Network ; September 2015"
+      STELLAR_HORIZON_URL: https://horizon-testnet.stellar.org
+      STELLAR_ALLOW_MAINNET: "false"
+      ACCEPTED_ASSETS: USDC:GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5
+      OBSERVER_ENABLED: "false"
+      WEBHOOK_WORKER_ENABLED: "false"
+      EXPIRY_WORKER_ENABLED: "false"
+      WEBHOOK_HOST_ALLOWLIST: localhost,127.0.0.1
+      WEBHOOK_ALLOW_PUBLIC_HTTPS: "false"
+      WEBHOOK_BACKOFF_MS: 0,0,0
+      # Fake fixture: 32 bytes of 0x07, base64. Not a production key.
+      WEBHOOK_ENCRYPTION_KEY: BwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwc=
+      ADMIN_TOKEN: test-admin-token
+      DEMO_OPEN_REGISTRATION: "true"
+      DB_MIGRATE_ON_BOOT: "false"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run build
+      - run: npm test
+      - run: npm run test:e2e

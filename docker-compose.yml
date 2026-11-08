@@ -1,0 +1,36 @@
+services:
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: beekle_stellar
+      MYSQL_USER: beekle
+      MYSQL_PASSWORD: beekle_dev_only
+      MYSQL_ROOT_PASSWORD: beekle_root_dev_only
+    ports:
+      - "3306:3306"
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-pbeekle_root_dev_only"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    volumes:
+      - beekle_mysql:/var/lib/mysql
+
+  api:
+    build: .
+    ports:
+      - "4317:4317"
+    env_file: .env
+    environment:
+      DB_HOST: mysql
+      DB_MIGRATE_ON_BOOT: "true"
+      PORT: "4317"
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+volumes:
+  beekle_mysql:
